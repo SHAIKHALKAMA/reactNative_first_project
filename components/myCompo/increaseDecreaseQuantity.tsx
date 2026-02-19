@@ -80,6 +80,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderWidth: 2,
     borderColor: '#004F9F',
+    backgroundColor: '#d3e9ffff',
     borderRadius: 6,
     height: 32,
     paddingHorizontal: 6,

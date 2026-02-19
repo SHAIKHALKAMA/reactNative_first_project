@@ -26,6 +26,7 @@ export default function RootLayout() {
           <Stack.Screen name="pages/referralPrivilege2" options={{ headerShown: false }} />
           <Stack.Screen name="pages/addAmcPool" options={{ headerShown: false }} />
           <Stack.Screen name="pages/cartScreen" options={{ headerShown: false }} />
+          <Stack.Screen name="pages/buySubscription" options={{ headerShown: false }} />
         </Stack>
         <StatusBar style="auto" />
       </ThemeProvider>

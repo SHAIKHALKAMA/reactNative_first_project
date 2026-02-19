@@ -15,16 +15,15 @@ const CartScreen = () => {
     const [open, setOpen] = useState(false);
     const [loading, setLoading] = useState(false);
     const [cartItems, setCartItems] = useState<any[]>([]);
-    const [snackbarMsg, setSnackbarMsg] = useState('');
-    const [snackbarType, setSnackbarType] = useState<'success' | 'error' | null>(null);
+    // const [snackbarMsg, setSnackbarMsg] = useState('');
+    // const [snackbarType, setSnackbarType] = useState<'success' | 'error' | null>(null);
     const [summary, setSummary] = useState<any>(null);
-    const [snackbarVisible, setSnackbarVisible] = useState(false);
+    // const [snackbarVisible, setSnackbarVisible] = useState(false);
 
     const onPressContinue = () => {
         router.push('/pages/referralPrivilege2');
     }
 
-    const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiODRkZjk5N2UwY2YxZTM5ZjAyNmQ4OTViZGE2Y2RmMDBkMmIwZTZmMDZjYTg0M2U0OTNhN2Y1OWExOTkwODFjMWY5ZDA5OGY0MDg4MDBhMDYiLCJpYXQiOjE3NzAzNTY0MTMuMzUzNDUsIm5iZiI6MTc3MDM1NjQxMy4zNTM0NzQsImV4cCI6MTgwMTg5MjQxMy4zNTAwNSwic3ViIjoiMTIiLCJzY29wZXMiOltdfQ.C9D1ZKfHneUOaXJBGaykF4sWEtNoPlei3wqSZt59hbswd9tlUERUxi29bPn1dnyu70mDTe2F_lKGum4I2a2Cmi-3swTDYXkLdaTFgEoWcEJYaHEkQr9yMRsDJuEw8PVDwP-e3fSRrGG3hBvuCO1LaAcbHRvkCtogwTTJJc3zMoe9bwz9hgz8hva7ji0pKe_9ZckMhnMjaVefF-5jlqwqcyk7NdCIDo54WnYk19UVwkR1EOT1owYmku8jcNkxUG-znh4loze1OJuz4PzeBapfzrl3lpOiORQB2fPdg4Bb8N4bQl1hZuIzRBm3lwlMiuO8aoDmcw_kp3rUIE1ld66IoKyPvZDTcjLucZtqq2Do5vBaXtiuVhAomHmv2rPCwx8OkL0aLEhk7tuZn37aH-PlamDw7uEFXNd0ml92_oHK9ROexsQQ91kOOlmkAQ7bqKi7xgdnoBcFp5SEpqPjSRt8UaCaF458bX0-jrT83FowcKdaTX-2L-q0j_ONxtZV1ZoY9e41mT4syzget0x2kKhn7VlIb5KS7XFNrX0r67M9LwgCjRQG0xDzH1L4qKP9WnHqFR8zv9zXa7Vh1VDzAcvbzjMO_R5zmPZeSuPksawDFlPMPeLqbnhEVe4acNo0WT64tiB-FUC0uBRHhbYD7ipb2KIdRufOaydNF2IZOhrog8Y'; // 🔥 Replace with your stored token
 
     useEffect(() => {
         if (!cartItems) return;
@@ -50,7 +49,7 @@ const CartScreen = () => {
     const fetchCart = async () => {
         try {
             setLoading(true);
-            const res = await getCart(token);
+            const res = await getCart();
 
             if (res.status) {
                 setCartItems(res.data.items); // ✅ ONLY THIS
@@ -76,7 +75,7 @@ const CartScreen = () => {
 
         try {
             console.log('➕ Increasing quantity:', productId);
-            await addToCart(token, productId);
+            await addToCart(productId);
         } catch (err) {
             console.log('Increase failed, reverting');
 
@@ -90,6 +89,7 @@ const CartScreen = () => {
             );
         }
     };
+
 
 
     const handleDecrease = async (productId: number) => {
@@ -114,14 +114,11 @@ const CartScreen = () => {
                 )
             );
         }
-
         try {
             console.log('➖ Decreasing quantity:', productId);
-            await removeFromCart(token, productId);
+            await removeFromCart(productId);
         } catch (err) {
             console.log('Decrease failed, reverting');
-
-            // ❌ rollback on error
             setCartItems(prev => [...prev, currentItem]);
         }
     };

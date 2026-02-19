@@ -1,7 +1,7 @@
 import Appbar from '@/components/myCompo/appbar';
+import Drawer from '@/components/myCompo/drawer';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
-import Drawer from '@/components/myCompo/drawer';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 const ReferralPrivilege = () => {
@@ -19,20 +19,16 @@ const ReferralPrivilege = () => {
                 showBack
                 showLeading={false}
                 showSearchbar={false}
-                showMenu={true} onMenuPress={() => setOpen(true)}
-            />
+                showMenu={true} onMenuPress={() => setOpen(true)} />
             <Drawer visible={open} onClose={() => setOpen(false)} />
-
             <View style={styles.content}>
                 <Text style={styles.emoji}>🤝</Text>
-
                 <Text style={styles.text}>
                     We value your trust in us. When you introduce us to someone who shares
                     your taste for premium living, we ensure their experience is just as
                     exceptional as yours. As a token of appreciation, you will receive
                     exclusive privileges and thoughtful benefits.
                 </Text>
-
                 <TouchableOpacity
                     activeOpacity={0.8}
                     onPress={onPressContinue} style={styles.button}>
@@ -64,17 +60,17 @@ const styles = StyleSheet.create({
     },
 
     emoji: {
-        fontSize: 64,          // 👈 reduced
+        fontSize: 64,
         marginBottom: 20,
     },
 
     text: {
-        fontSize: 16,          // 👈 better readability
+        fontSize: 16,
         lineHeight: 24,
         color: '#000',
         textAlign: 'center',
         fontWeight: '500',
-        maxWidth: 300,         // 👈 VERY IMPORTANT (fixes ugly wide text)
+        maxWidth: 300,
     },
 
     button: {
@@ -94,3 +90,4 @@ const styles = StyleSheet.create({
         letterSpacing: 0.5,
     },
 });
+

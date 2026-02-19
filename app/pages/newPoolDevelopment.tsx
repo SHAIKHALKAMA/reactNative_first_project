@@ -4,23 +4,56 @@ import CustomTextField from '@/components/myCompo/custom_textfield';
 import Drawer from '@/components/myCompo/drawer';
 import RadioGroup from '@/components/myCompo/radio';
 import RadioGroup2 from '@/components/myCompo/radio2';
+import { addNewPool } from '@/services/newPoolService';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+
 
 const NewPoolDevelopment = () => {
     const router = useRouter();
     const [open, setOpen] = useState(false);
     const [selected, setSelected] = useState('yes');
+    const [selectFeature, setSelectFeature] = useState('yes');
     const [size, setSize] = useState('');
     const [budget, setBudget] = useState('');
     const [compDate, setCompDate] = useState('');
     const [features, setFeatures] = useState<string[]>([]);
     const [isSubmit, setIsSubmit] = useState(false);
 
-    const onSubmit = () => {
-        router.push('/(tabs)/home')
-    }
+
+
+    // const onSubmit = () => {
+    //     router.push('/(tabs)/home');
+    // }
+
+    const onSubmit = async () => {
+        try {
+            const response = await addNewPool({
+                type: selected,
+                size: size,
+                finish: selectFeature,
+                features: features,   // checkbox array
+                budget: budget,
+                timeline: compDate,
+            });
+
+            console.log(response);
+
+            if (response.status) {
+                alert('Pool submitted successfully');
+                router.push('/(tabs)/home');
+            } else {
+                alert(response.message);
+            }
+
+        } catch (error: any) {
+            console.log(error?.response?.data || error);
+            alert('Something went wrong');
+        }
+    };
+
+
 
 
     return (
@@ -48,8 +81,8 @@ const NewPoolDevelopment = () => {
                         { label: 'Fiberglass', value: 'Fiberglass' },
                         { label: 'Other', value: 'Other' },
                     ]}
-                    value={selected}
-                    onChange={setSelected}
+                    value={selectFeature}
+                    onChange={setSelectFeature}
                     columns={2}
                 />
             </View>

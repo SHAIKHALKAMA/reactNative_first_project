@@ -13,9 +13,7 @@ import { Snackbar } from 'react-native-paper';
 const EquipmentDetails = () => {
     const { product_id } = useLocalSearchParams();
     const router = useRouter();
-
     const [isAdded, setIsAdded] = useState(false);
-
     const [open, setOpen] = useState(false);
     const [currentIndex, setCurrentIndex] = useState(0);
     const flatListRef = useRef<FlatList>(null);
@@ -23,23 +21,22 @@ const EquipmentDetails = () => {
     const [snackbarVisible, setSnackbarVisible] = useState(false);
     const [snackbarMsg, setSnackbarMsg] = useState('');
     const [snackbarType, setSnackbarType] = useState<'success' | 'error'>('success');
-    const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiODRkZjk5N2UwY2YxZTM5ZjAyNmQ4OTViZGE2Y2RmMDBkMmIwZTZmMDZjYTg0M2U0OTNhN2Y1OWExOTkwODFjMWY5ZDA5OGY0MDg4MDBhMDYiLCJpYXQiOjE3NzAzNTY0MTMuMzUzNDUsIm5iZiI6MTc3MDM1NjQxMy4zNTM0NzQsImV4cCI6MTgwMTg5MjQxMy4zNTAwNSwic3ViIjoiMTIiLCJzY29wZXMiOltdfQ.C9D1ZKfHneUOaXJBGaykF4sWEtNoPlei3wqSZt59hbswd9tlUERUxi29bPn1dnyu70mDTe2F_lKGum4I2a2Cmi-3swTDYXkLdaTFgEoWcEJYaHEkQr9yMRsDJuEw8PVDwP-e3fSRrGG3hBvuCO1LaAcbHRvkCtogwTTJJc3zMoe9bwz9hgz8hva7ji0pKe_9ZckMhnMjaVefF-5jlqwqcyk7NdCIDo54WnYk19UVwkR1EOT1owYmku8jcNkxUG-znh4loze1OJuz4PzeBapfzrl3lpOiORQB2fPdg4Bb8N4bQl1hZuIzRBm3lwlMiuO8aoDmcw_kp3rUIE1ld66IoKyPvZDTcjLucZtqq2Do5vBaXtiuVhAomHmv2rPCwx8OkL0aLEhk7tuZn37aH-PlamDw7uEFXNd0ml92_oHK9ROexsQQ91kOOlmkAQ7bqKi7xgdnoBcFp5SEpqPjSRt8UaCaF458bX0-jrT83FowcKdaTX-2L-q0j_ONxtZV1ZoY9e41mT4syzget0x2kKhn7VlIb5KS7XFNrX0r67M9LwgCjRQG0xDzH1L4qKP9WnHqFR8zv9zXa7Vh1VDzAcvbzjMO_R5zmPZeSuPksawDFlPMPeLqbnhEVe4acNo0WT64tiB-FUC0uBRHhbYD7ipb2KIdRufOaydNF2IZOhrog8Y'; // 🔥 Replace with your stored token
 
     const handleAddToCart = async () => {
         try {
             setLoading(true);
-            const response = await addToCart(token, Number(product_id));
+            const response = await addToCart(Number(product_id));
 
             if (response.status) {
                 setIsAdded(true);
                 setSnackbarMsg(response.message);
                 setSnackbarType('success');
+                await refetch();
             } else {
                 setSnackbarMsg(response.message);
                 setSnackbarType('error');
             }
-        } catch (error: any) {
-            console.log(error?.response?.data || error);
+        } catch {
             setSnackbarMsg('Something went wrong');
             setSnackbarType('error');
         } finally {
@@ -50,24 +47,23 @@ const EquipmentDetails = () => {
 
 
 
-    const { data, isLoading, error } = useQuery({
+    const { data, isLoading, error, refetch } = useQuery({
         queryKey: ['productDetail', product_id],
-        queryFn: () => getProductDetails(Number(product_id), token),
+        queryFn: () => getProductDetails(Number(product_id)),
         enabled: !!product_id,
     });
 
     const productDetail = data?.data;
-    const alreadyAdded = productDetail?.already_added === true;
+    const alreadyAdded = isAdded || productDetail?.already_added === true;
 
     const onCartPress = () => {
         if (alreadyAdded) {
-            router.push('/pages/cartScreen'); // View Cart
+            router.push('/pages/cartScreen');
         } else {
             handleAddToCart();
         }
     };
 
-    // ✅ Loading State
     if (isLoading) {
         return (
             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -76,7 +72,6 @@ const EquipmentDetails = () => {
         );
     }
 
-    // ✅ Error State
     if (error) {
         return (
             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -138,7 +133,7 @@ const EquipmentDetails = () => {
             <Text style={styles.desctext}>
                 {productDetail?.product_description}
             </Text>
-            <View >
+            <View>
                 <DetailText title="Power input" value={productDetail?.power_input} />
                 <DetailText title="Motor rating" value={productDetail?.motor_rating} />
                 <DetailText title="Max flow rate" value={productDetail?.max_flow_rate} />
@@ -154,8 +149,6 @@ const EquipmentDetails = () => {
                         <Text style={styles.addtoCartText}>
                             {alreadyAdded ? 'View Cart' : 'Add Cart'}
                         </Text>
-
-
                     </View>
                 </TouchableOpacity>
                 <Snackbar
@@ -179,7 +172,7 @@ export default EquipmentDetails;
 const { width } = Dimensions.get('window');
 const styles = StyleSheet.create({
     detailImg: {
-        width: width - 40,   // because you have paddingHorizontal: 20
+        width: width - 40,
         height: 220,
         borderRadius: 4,
     },
