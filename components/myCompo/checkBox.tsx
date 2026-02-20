@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 type Option = {
   label: string;
@@ -39,8 +39,9 @@ const CheckboxGroup: React.FC<Props> = ({
             activeOpacity={0.7}
           >
             <View style={[styles.checkbox, checked && styles.checkedBox]}>
-              {checked && <View style={styles.innerDot} />}
+              {checked && <Text style={styles.checkIcon}>✓</Text>}
             </View>
+
             <Text style={styles.label}>{item.label}</Text>
           </TouchableOpacity>
         );
@@ -64,19 +65,29 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   checkbox: {
-    width: 20,
-    height: 20,
+    width: 22,
+    height: 22,
     borderRadius: 4,
     borderWidth: 1.5,
     borderColor: '#BDBDBD',
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 10,
+    backgroundColor: '#fff',
   },
+
   checkedBox: {
+    borderWidth: 2,
     borderColor: '#004F9F',
     backgroundColor: '#004F9F',
   },
+
+  checkIcon: {
+    color: '#fff',
+    fontSize: 14,
+    fontWeight: 'bold',
+  },
+
   innerDot: {
     width: 10,
     height: 10,

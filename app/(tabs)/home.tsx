@@ -11,10 +11,8 @@ const { width } = Dimensions.get('window');
 
 const Home = () => {
     const router = useRouter();
-    const [loading, setLoading] = useState(true);
     const [currentIndex, setCurrentIndex] = useState(0);
     const flatListRef = useRef<FlatList>(null);
-
 
     const { data: bannerData, isLoading: bannerLoading } = useQuery({
         queryKey: ['banners'],
@@ -32,7 +30,6 @@ const Home = () => {
 
     useEffect(() => {
         if (!banners.length) return;
-
         const interval = setInterval(() => {
             const nextIndex =
                 currentIndex + 1 >= banners.length ? 0 : currentIndex + 1;
@@ -89,7 +86,9 @@ const Home = () => {
     return (
         <View style={styles.main}>
             <Appbar title={''} showLeading={true} showSearchbar={true} />
+
             {/* 🔥 Banner Section */}
+
             <View style={styles.header}>
                 {bannerLoading ? (
                     <ActivityIndicator size="large" />
@@ -146,6 +145,7 @@ const Home = () => {
                     )}
                 />
             )}
+
 
         </View>
     );

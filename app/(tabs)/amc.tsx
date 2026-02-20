@@ -58,7 +58,6 @@ const Amc = () => {
                     <Text style={styles.subtitle}>
                         Dimensions: {item.length} x {item.width} x {item.depth}
                     </Text>
-
                     <TouchableOpacity activeOpacity={0.8} onPress={() => router.push({
                         pathname: '/pages/buySubscription',
                         params: {

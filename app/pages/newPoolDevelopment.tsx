@@ -22,18 +22,13 @@ const NewPoolDevelopment = () => {
     const [isSubmit, setIsSubmit] = useState(false);
 
 
-
-    // const onSubmit = () => {
-    //     router.push('/(tabs)/home');
-    // }
-
     const onSubmit = async () => {
         try {
             const response = await addNewPool({
                 type: selected,
                 size: size,
                 finish: selectFeature,
-                features: features,   // checkbox array
+                features: features,
                 budget: budget,
                 timeline: compDate,
             });

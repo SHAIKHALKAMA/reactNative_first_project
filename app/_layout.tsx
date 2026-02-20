@@ -1,3 +1,4 @@
+import { AuthProvider } from '@/context/AuthContext';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -18,7 +19,8 @@ export default function RootLayout() {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-        <Stack>
+       <AuthProvider>
+         <Stack>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           <Stack.Screen name="pages/newPoolDevelopment" options={{ headerShown: false }} />
           <Stack.Screen name="pages/referralPrivilege" options={{ headerShown: false }} />
@@ -29,6 +31,7 @@ export default function RootLayout() {
           <Stack.Screen name="pages/buySubscription" options={{ headerShown: false }} />
         </Stack>
         <StatusBar style="auto" />
+       </AuthProvider>
       </ThemeProvider>
     </QueryClientProvider>
   );

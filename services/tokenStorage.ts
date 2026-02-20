@@ -23,3 +23,7 @@ export const getAuthToken = async () => {
 export const clearGuestToken = async () => {
     await AsyncStorage.removeItem(GUEST_TOKEN_KEY);
 };
+
+export const clearAuthToken = async () => {
+    await AsyncStorage.removeItem(AUTH_TOKEN_KEY);
+};

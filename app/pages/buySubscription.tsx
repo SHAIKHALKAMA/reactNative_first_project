@@ -42,11 +42,7 @@ const BuySubscription = () => {
 
         if (!matches) return [];
 
-        return matches.map((item) =>
-            item
-                .replace(/<[^>]+>/g, "")
-                .replace(/&nbsp;/g, " ")
-                .trim()
+        return matches.map((item) => item.replace(/<[^>]+>/g, "").replace(/&nbsp;/g, " ").trim()
         );
     };
 
@@ -89,13 +85,10 @@ const BuySubscription = () => {
                     )
                 )}
             </View>
-
             {/* Buy Button */}
             <TouchableOpacity style={styles.buyButton}>
-                <Text style={styles.buyText}>Buy Now ₹ {item.price}</Text>
+                <Text style={styles.buyText}>Buy Now ₹{item.price}</Text>
             </TouchableOpacity>
-
-
         </View>
     );
 
